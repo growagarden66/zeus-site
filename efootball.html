@@ -3,74 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu eFootball 🎮</title>
+  <title>Meu Perfil eFootball</title>
   <style>
     body {
       margin: 0;
       overflow: hidden;
-      background-color: #FFD700; /* fundo amarelo */
+      background-color: #ffd700; /* Amarelo */
       font-family: 'Poppins', sans-serif;
-      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       text-align: center;
+      color: black;
     }
 
     h1 {
-      font-size: 2.5em;
-      color: #0f0; /* título verde */
-      text-shadow: 0 0 20px #00ff00;
+      font-size: 2em;
+      margin-bottom: 20px;
     }
 
     button {
-      background: transparent;
-      border: 2px solid #00ff00;
-      color: #00ff00;
+      background-color: #008000; /* Verde */
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 12px;
       font-size: 1.2em;
-      padding: 12px 25px;
-      border-radius: 15px;
       cursor: pointer;
       margin-top: 20px;
-      transition: all 0.3s ease;
-      z-index: 2;
-      position: relative;
+      transition: transform 0.3s, background-color 0.3s;
     }
 
     button:hover {
-      background: #00ff00;
-      color: #000;
       transform: scale(1.1);
+      background-color: #00b300;
     }
 
     #info {
-      margin-top: 30px;
-      font-size: 1.5em;
       opacity: 0;
-      transition: opacity 2s ease;
-      font-weight: bold;
-      color: #000;
-      text-shadow: 0 0 10px #00ffff;
+      font-size: 1.5em;
+      margin-top: 30px;
+      color: #001aff;
+      text-shadow: 0 0 15px #001aff;
+      white-space: pre-line;
     }
 
     canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      z-index: 0;
+      z-index: -1;
     }
   </style>
 </head>
 <body>
-  <canvas id="constelacoes"></canvas>
-  <h1>⚡ Zeus no eFootball ⚡</h1>
-  <button onclick="mostrarUser()">💫 Meu user no eFootball</button>
+  <h1>🌌 Meu Perfil eFootball 🌌</h1>
+  <button id="mostrar">Meu user no eFootball</button>
   <div id="info"></div>
 
+  <canvas id="constelacoes"></canvas>
+
   <script>
-    // fundo com constelações verdes
+    const btn = document.getElementById('mostrar');
+    const info = document.getElementById('info');
+    const texto = "👤 Nome: ZeusBR10\n🆔 ID: 987654321";
+
+    // Função para exibir texto letra por letra
+    function mostrarTextoLento() {
+      info.style.opacity = "1";
+      info.textContent = "";
+      let i = 0;
+      const intervalo = setInterval(() => {
+        info.textContent += texto[i];
+        i++;
+        if (i >= texto.length) clearInterval(intervalo);
+      }, 100); // velocidade da animação (100ms por letra)
+    }
+
+    btn.addEventListener('click', mostrarTextoLento);
+
+    // Constelações
     const canvas = document.getElementById('constelacoes');
     const ctx = canvas.getContext('2d');
     let estrelas = [];
@@ -82,133 +96,68 @@
     window.addEventListener('resize', redimensionar);
     redimensionar();
 
-    // menos constelações e mais distantes
-    for (let i = 0; i < 80; i++) {
-      estrelas.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2,
-        dx: (Math.random() - 0.5) * 0.6,
-        dy: (Math.random() - 0.5) * 0.6
-      });
+    // Cria constelações aleatórias
+    function criarEstrelas() {
+      for (let i = 0; i < 80; i++) {
+        estrelas.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          raio: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 1.2,
+          dy: (Math.random() - 0.5) * 1.2,
+          cor: Math.random() < 0.5 ? "green" : "blue"
+        });
+      }
     }
+    criarEstrelas();
 
+    // Cria novas estrelas ao mover o mouse
+    document.addEventListener('mousemove', (e) => {
+      for (let i = 0; i < 4; i++) {
+        estrelas.push({
+          x: e.clientX + (Math.random() - 0.5) * 20,
+          y: e.clientY + (Math.random() - 0.5) * 20,
+          raio: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 1.5,
+          dy: (Math.random() - 0.5) * 1.5,
+          cor: Math.random() < 0.5 ? "green" : "blue"
+        });
+      }
+    });
+
+    // Animação das constelações
     function desenhar() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "lime";
-      for (let estrela of estrelas) {
+      ctx.fillStyle = "rgba(255,215,0,0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      estrelas.forEach((estrela, i) => {
         ctx.beginPath();
-        ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
+        ctx.arc(estrela.x, estrela.y, estrela.raio, 0, Math.PI * 2);
+        ctx.fillStyle = estrela.cor;
         ctx.fill();
 
         estrela.x += estrela.dx;
         estrela.y += estrela.dy;
+        estrela.raio *= 0.995; // diminui com o tempo
 
-        if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
-        if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
-      }
+        if (estrela.raio < 0.3) estrelas.splice(i, 1);
+      });
 
-      for (let i = 0; i < estrelas.length; i++) {
-        for (let j = i + 1; j < estrelas.length; j++) {
-          let dx = estrelas[i].x - estrelas[j].x;
-          let dy = estrelas[i].y - estrelas[j].y;
-          let dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.strokeStyle = "rgba(0,255,0," + (1 - dist / 100) + ")";
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(estrelas[i].x, estrelas[i].y);
-            ctx.lineTo(estrelas[j].x, estrelas[j].y);
-            ctx.stroke();
-          }
-        }
+      // adiciona mais estrelas aleatórias com o tempo
+      if (Math.random() < 0.05) {
+        estrelas.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          raio: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 1,
+          dy: (Math.random() - 0.5) * 1,
+          cor: Math.random() < 0.5 ? "green" : "blue"
+        });
       }
 
       requestAnimationFrame(desenhar);
     }
     desenhar();
-
-    // função para mostrar o nome e ID com efeito
-    function mostrarUser() {
-      const info = document.getElementById('info');
-      info.innerHTML = "";
-      const texto = "Nome: ZEUSKATANA<br>ID: ASFY-782-034-542";
-      let i = 0;
-
-      function digitar() {
-        if (i < texto.length) {
-          info.innerHTML += texto[i] === "<" ? "<br>" : texto[i];
-          i++;
-          setTimeout(digitar, 60);
-        } else {
-          efeitoConstelacaoAzul();
-        }
-      }
-
-      info.style.opacity = 1;
-      digitar();
-    }
-
-    // efeito com constelações azuis no texto
-    function efeitoConstelacaoAzul() {
-      const info = document.getElementById('info');
-      const canvas2 = document.createElement('canvas');
-      canvas2.width = info.offsetWidth;
-      canvas2.height = 100;
-      canvas2.style.position = "absolute";
-      canvas2.style.top = info.offsetTop + "px";
-      canvas2.style.left = "50%";
-      canvas2.style.transform = "translateX(-50%)";
-      canvas2.style.zIndex = 1;
-      document.body.appendChild(canvas2);
-      const ctx2 = canvas2.getContext('2d');
-
-      let pontos = [];
-      for (let i = 0; i < 50; i++) {
-        pontos.push({
-          x: Math.random() * canvas2.width,
-          y: Math.random() * canvas2.height,
-          r: Math.random() * 2,
-          dx: (Math.random() - 0.5) * 1,
-          dy: (Math.random() - 0.5) * 1
-        });
-      }
-
-      function animarAzul() {
-        ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-        ctx2.fillStyle = "#00ffff";
-        for (let p of pontos) {
-          ctx2.beginPath();
-          ctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx2.fill();
-
-          p.x += p.dx;
-          p.y += p.dy;
-
-          if (p.x < 0 || p.x > canvas2.width) p.dx *= -1;
-          if (p.y < 0 || p.y > canvas2.height) p.dy *= -1;
-        }
-
-        for (let i = 0; i < pontos.length; i++) {
-          for (let j = i + 1; j < pontos.length; j++) {
-            let dx = pontos[i].x - pontos[j].x;
-            let dy = pontos[i].y - pontos[j].y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 100) {
-              ctx2.strokeStyle = "rgba(0,255,255," + (1 - dist / 100) + ")";
-              ctx2.lineWidth = 0.5;
-              ctx2.beginPath();
-              ctx2.moveTo(pontos[i].x, pontos[i].y);
-              ctx2.lineTo(pontos[j].x, pontos[j].y);
-              ctx2.stroke();
-            }
-          }
-        }
-
-        requestAnimationFrame(animarAzul);
-      }
-      animarAzul();
-    }
   </script>
 </body>
 </html>
