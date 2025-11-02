@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil eFootball - ZEUS</title>
+  <title>ZEUS eFootball ⚡</title>
   <style>
     body {
       margin: 0;
@@ -22,8 +22,8 @@
     h1 {
       color: red;
       font-size: 3em;
+      text-shadow: 0 0 25px red, 0 0 50px #ff0000;
       margin-bottom: 10px;
-      text-shadow: 0 0 20px red, 0 0 40px #ff0000;
     }
 
     p {
@@ -56,11 +56,11 @@
       z-index: -1;
     }
 
-    /* Efeito do clique azul */
+    /* Efeito de clique azul */
     .click-effect {
       position: fixed;
       border-radius: 50%;
-      background: rgba(0, 150, 255, 0.5);
+      background: rgba(0, 150, 255, 0.6);
       pointer-events: none;
       transform: scale(0);
       animation: clickAnimation 0.6s ease-out forwards;
@@ -73,12 +73,32 @@
         opacity: 0;
       }
     }
+
+    /* Flash do trovão */
+    .flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      animation: flashAnim 0.3s ease-out;
+      z-index: 999;
+    }
+
+    @keyframes flashAnim {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
-  <h1>⚽ Perfil eFootball ⚡</h1>
-  <p><strong>Nome:</strong> ZEUS</p>
-  <p><strong>ID:</strong> 123456789</p>
+  <h1>⚡ ZEUS eFootball ⚽</h1>
+  <p><strong>Nome:</strong> ZEUSKATANA</p>
+  <p><strong>ID:</strong> ASFY-782-034-542</p>
   <button onclick="window.location.href='index.html'">⬅ Voltar</button>
 
   <canvas id="constelacoes"></canvas>
@@ -86,6 +106,11 @@
   <!-- Som de clique -->
   <audio id="clickSound" preload="auto">
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6e4d1f9a93.mp3?filename=click-124467.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Som de trovão -->
+  <audio id="thunderSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_7f0db09b16.mp3?filename=thunder-124484.mp3" type="audio/mp3">
   </audio>
 
   <script>
@@ -101,7 +126,7 @@
     redimensionar();
 
     function gerarEstrelasAleatorias() {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 40; i++) {
         estrelas.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -118,12 +143,12 @@
     document.addEventListener("mousemove", (e) => {
       for (let i = 0; i < 5; i++) {
         estrelas.push({
-          x: e.clientX + (Math.random() - 0.5) * 25,
-          y: e.clientY + (Math.random() - 0.5) * 25,
+          x: e.clientX + (Math.random() - 0.5) * 20,
+          y: e.clientY + (Math.random() - 0.5) * 20,
           raio: Math.random() * 2 + 1,
           dx: (Math.random() - 0.5) * 1.5,
           dy: (Math.random() - 0.5) * 1.5,
-          tempo: Date.now() + 500 + Math.random() * 300,
+          tempo: Date.now() + 500 + Math.random() * 400,
           cor: `hsl(${Math.random() * 360}, 100%, 50%)`
         });
       }
@@ -177,7 +202,7 @@
     }
     desenhar();
 
-    // Clique com efeito e som
+    // 🔹 Efeito de clique com som
     document.addEventListener("click", (e) => {
       const clickSound = document.getElementById("clickSound");
       clickSound.currentTime = 0;
@@ -193,6 +218,22 @@
 
       setTimeout(() => effect.remove(), 600);
     });
+
+    // ⚡ Trovão a cada poucos segundos
+    function relampago() {
+      const flash = document.createElement("div");
+      flash.className = "flash";
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 300);
+
+      const thunder = document.getElementById("thunderSound");
+      thunder.currentTime = 0;
+      thunder.play();
+    }
+
+    setInterval(() => {
+      if (Math.random() < 0.4) relampago(); // 40% de chance a cada 5s
+    }, 5000);
   </script>
 </body>
 </html>
