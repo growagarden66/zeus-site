@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚽ eFootball - Zeus ⚽</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: black;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      top: 40%;
+      transform: translateY(-50%);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: red;
+      text-shadow: 0 0 20px red;
+      margin-bottom: 20px;
+      animation: brilho 3s infinite alternate;
+    }
+
+    @keyframes brilho {
+      from { text-shadow: 0 0 20px red; }
+      to { text-shadow: 0 0 40px red; }
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin: 5px 0;
+    }
+
+    button {
+      margin-top: 30px;
+      background: transparent;
+      border: 2px solid red;
+      color: white;
+      padding: 10px 25px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: red;
+      box-shadow: 0 0 20px red;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="constelacao"></canvas>
+
+  <div class="content">
+    <h1>⚽ Me adicione no eFootball ⚽</h1>
+    <p><strong>Nome:</strong> ZEUSKATANA</p>
+    <p><strong>ID:</strong> ASFY-782-034-542</p>
+
+    <button onclick="window.location.href='index.html'">⬅️ Voltar ao Zeus</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("constelacao");
+    const ctx = canvas.getContext("2d");
+    let estrelas = [];
+
+    function redimensionar() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", redimensionar);
+    redimensionar();
+
+    // Menos estrelas também nessa página
+    for (let i = 0; i < 80; i++) {
+      estrelas.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6
+      });
+    }
+
+    function desenhar() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "red";
+
+      for (let estrela of estrelas) {
+        ctx.beginPath();
+        ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        estrela.x += estrela.dx;
+        estrela.y += estrela.dy;
+
+        if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
+        if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
+      }
+
+      for (let i = 0; i < estrelas.length; i++) {
+        for (let j = i + 1; j < estrelas.length; j++) {
+          let dx = estrelas[i].x - estrelas[j].x;
+          let dy = estrelas[i].y - estrelas[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 70) {
+            ctx.strokeStyle = "rgba(255,0,0," + (1 - dist / 70) + ")";
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(estrelas[i].x, estrelas[i].y);
+            ctx.lineTo(estrelas[j].x, estrelas[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(desenhar);
+    }
+
+    desenhar();
+  </script>
+</body>
+</html>
