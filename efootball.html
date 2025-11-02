@@ -1,78 +1,214 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zeus - eFootball</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu eFootball 🎮</title>
   <style>
     body {
       margin: 0;
-      background: radial-gradient(circle at center, #1a0000, #000);
-      color: white;
+      overflow: hidden;
+      background-color: #FFD700; /* fundo amarelo */
       font-family: 'Poppins', sans-serif;
-      text-align: center;
-      height: 100vh;
+      color: white;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
 
     h1 {
-      font-size: 3rem;
-      color: #ff0000;
-      text-shadow: 0 0 20px #ff0000;
-    }
-
-    p {
-      font-size: 1.5rem;
-      margin: 10px 0;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 20px;
-      border-radius: 10px;
-    }
-
-    audio {
-      margin-top: 30px;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 10px;
+      font-size: 2.5em;
+      color: #0f0; /* título verde */
+      text-shadow: 0 0 20px #00ff00;
     }
 
     button {
-      background: #ff0000;
-      border: none;
-      padding: 12px 20px;
-      font-size: 1.1rem;
-      border-radius: 10px;
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.2em;
+      padding: 12px 25px;
+      border-radius: 15px;
       cursor: pointer;
-      color: white;
       margin-top: 20px;
-      transition: 0.3s;
+      transition: all 0.3s ease;
+      z-index: 2;
+      position: relative;
     }
 
     button:hover {
-      background: #ff4d4d;
-      transform: scale(1.05);
+      background: #00ff00;
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    #info {
+      margin-top: 30px;
+      font-size: 1.5em;
+      opacity: 0;
+      transition: opacity 2s ease;
+      font-weight: bold;
+      color: #000;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
-
+  <canvas id="constelacoes"></canvas>
   <h1>⚡ Zeus no eFootball ⚡</h1>
-  <p><strong>Nome:</strong> ZEUSKATANA</p>
-  <p><strong>ID:</strong> ASFY-782-034-542</p>
+  <button onclick="mostrarUser()">💫 Meu user no eFootball</button>
+  <div id="info"></div>
 
-  <!-- 🎵 MÚSICA DIRETA -->
-  <audio controls>
-    <source src="https://open.spotify.com/track/2LhfsUStPArrb839f7C2dQ?si=_xYFjz_2QYC4SUGsudN5jw" type="audio/mpeg">
-    Seu navegador não suporta áudio HTML5.
-  </audio>
+  <script>
+    // fundo com constelações verdes
+    const canvas = document.getElementById('constelacoes');
+    const ctx = canvas.getContext('2d');
+    let estrelas = [];
 
-  <!-- OU ABRIR NO SPOTIFY -->
-  <button onclick="window.open('https://open.spotify.com/track/2LhfsUStPArrb839f7C2dQ?si=_xYFjz_2QYC4SUGsudN5jw','_blank')">
-    🎧 Ouvir no Spotify
-  </button>
+    function redimensionar() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', redimensionar);
+    redimensionar();
 
+    // menos constelações e mais distantes
+    for (let i = 0; i < 80; i++) {
+      estrelas.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6
+      });
+    }
+
+    function desenhar() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "lime";
+      for (let estrela of estrelas) {
+        ctx.beginPath();
+        ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        estrela.x += estrela.dx;
+        estrela.y += estrela.dy;
+
+        if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
+        if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
+      }
+
+      for (let i = 0; i < estrelas.length; i++) {
+        for (let j = i + 1; j < estrelas.length; j++) {
+          let dx = estrelas[i].x - estrelas[j].x;
+          let dy = estrelas[i].y - estrelas[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.strokeStyle = "rgba(0,255,0," + (1 - dist / 100) + ")";
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(estrelas[i].x, estrelas[i].y);
+            ctx.lineTo(estrelas[j].x, estrelas[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(desenhar);
+    }
+    desenhar();
+
+    // função para mostrar o nome e ID com efeito
+    function mostrarUser() {
+      const info = document.getElementById('info');
+      info.innerHTML = "";
+      const texto = "Nome: ZEUSKATANA<br>ID: ASFY-782-034-542";
+      let i = 0;
+
+      function digitar() {
+        if (i < texto.length) {
+          info.innerHTML += texto[i] === "<" ? "<br>" : texto[i];
+          i++;
+          setTimeout(digitar, 60);
+        } else {
+          efeitoConstelacaoAzul();
+        }
+      }
+
+      info.style.opacity = 1;
+      digitar();
+    }
+
+    // efeito com constelações azuis no texto
+    function efeitoConstelacaoAzul() {
+      const info = document.getElementById('info');
+      const canvas2 = document.createElement('canvas');
+      canvas2.width = info.offsetWidth;
+      canvas2.height = 100;
+      canvas2.style.position = "absolute";
+      canvas2.style.top = info.offsetTop + "px";
+      canvas2.style.left = "50%";
+      canvas2.style.transform = "translateX(-50%)";
+      canvas2.style.zIndex = 1;
+      document.body.appendChild(canvas2);
+      const ctx2 = canvas2.getContext('2d');
+
+      let pontos = [];
+      for (let i = 0; i < 50; i++) {
+        pontos.push({
+          x: Math.random() * canvas2.width,
+          y: Math.random() * canvas2.height,
+          r: Math.random() * 2,
+          dx: (Math.random() - 0.5) * 1,
+          dy: (Math.random() - 0.5) * 1
+        });
+      }
+
+      function animarAzul() {
+        ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+        ctx2.fillStyle = "#00ffff";
+        for (let p of pontos) {
+          ctx2.beginPath();
+          ctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx2.fill();
+
+          p.x += p.dx;
+          p.y += p.dy;
+
+          if (p.x < 0 || p.x > canvas2.width) p.dx *= -1;
+          if (p.y < 0 || p.y > canvas2.height) p.dy *= -1;
+        }
+
+        for (let i = 0; i < pontos.length; i++) {
+          for (let j = i + 1; j < pontos.length; j++) {
+            let dx = pontos[i].x - pontos[j].x;
+            let dy = pontos[i].y - pontos[j].y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100) {
+              ctx2.strokeStyle = "rgba(0,255,255," + (1 - dist / 100) + ")";
+              ctx2.lineWidth = 0.5;
+              ctx2.beginPath();
+              ctx2.moveTo(pontos[i].x, pontos[i].y);
+              ctx2.lineTo(pontos[j].x, pontos[j].y);
+              ctx2.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animarAzul);
+      }
+      animarAzul();
+    }
+  </script>
 </body>
 </html>
