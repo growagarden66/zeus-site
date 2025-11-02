@@ -1,42 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚡ Zeus ⚡</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚡Zeus⚡</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
+      margin: 0;
       overflow: hidden;
+      background-color: black;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
+      color: white;
     }
 
     h1 {
       font-size: 3em;
-      margin-top: 60px;
+      text-shadow: 0 0 20px red, 0 0 40px red;
+      margin-bottom: 30px;
     }
 
     button {
-      display: block;
-      margin: 30px auto;
-      padding: 15px 30px;
-      font-size: 1em;
-      font-weight: bold;
+      background-color: transparent;
       border: 2px solid red;
-      border-radius: 15px;
-      background: transparent;
       color: white;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 10px;
+      margin: 10px;
       cursor: pointer;
       transition: 0.3s;
     }
 
     button:hover {
-      background: red;
+      background-color: red;
       transform: scale(1.1);
+      box-shadow: 0 0 20px red;
     }
 
     canvas {
@@ -48,48 +52,72 @@
   </style>
 </head>
 <body>
-  <canvas id="constelacao"></canvas>
+  <h1>⚡Zeus⚡</h1>
 
-  <h1>⚡ Zeus ⚡</h1>
+  <button onclick="window.location.href='https://www.roblox.com'">🎮 Me adicione no Roblox!</button>
+  <button onclick="window.location.href='efootball.html'">⚽ Me adicione no eFootball!</button>
 
-  <button onclick="window.open('https://www.roblox.com/pt/users/2968810271/profile', '_blank')">
-    🎮 Me adicione no Roblox!
-  </button>
-
-  <button onclick="window.location.href='efootball.html'">
-    ⚽ Me adicione no eFootball!
-  </button>
+  <canvas id="constelacoes"></canvas>
 
   <script>
-    const canvas = document.getElementById('constelacao');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("constelacoes");
+    const ctx = canvas.getContext("2d");
     let estrelas = [];
 
     function redimensionar() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-
-    window.addEventListener('resize', redimensionar);
+    window.addEventListener("resize", redimensionar);
     redimensionar();
 
-    for (let i = 0; i < 60; i++) { // Menos constelações
-      estrelas.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5
-      });
+    function corAleatoria() {
+      const cores = ["red", "blue", "purple", "cyan", "orange", "white", "yellow"];
+      return cores[Math.floor(Math.random() * cores.length)];
     }
 
-    function desenhar() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "red";
+    function criarEstrelas(qtd = 80) {
+      for (let i = 0; i < qtd; i++) {
+        estrelas.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          dx: (Math.random() - 0.5) * 1.2,
+          dy: (Math.random() - 0.5) * 1.2,
+          raio: Math.random() * 2 + 1,
+          cor: corAleatoria(),
+          tempoCor: Date.now() + Math.random() * 2000
+        });
+      }
+    }
+    criarEstrelas();
 
-      for (let estrela of estrelas) {
+    document.addEventListener("mousemove", (e) => {
+      for (let i = 0; i < 5; i++) {
+        estrelas.push({
+          x: e.clientX + (Math.random() - 0.5) * 20,
+          y: e.clientY + (Math.random() - 0.5) * 20,
+          dx: (Math.random() - 0.5) * 1.5,
+          dy: (Math.random() - 0.5) * 1.5,
+          raio: Math.random() * 2 + 1,
+          cor: corAleatoria(),
+          tempoCor: Date.now() + Math.random() * 1500
+        });
+      }
+    });
+
+    function desenhar() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      estrelas.forEach((estrela, i) => {
+        if (Date.now() > estrela.tempoCor) {
+          estrela.cor = corAleatoria();
+          estrela.tempoCor = Date.now() + 1000 + Math.random() * 2000;
+        }
+
         ctx.beginPath();
-        ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
+        ctx.arc(estrela.x, estrela.y, estrela.raio, 0, Math.PI * 2);
+        ctx.fillStyle = estrela.cor;
         ctx.fill();
 
         estrela.x += estrela.dx;
@@ -97,16 +125,18 @@
 
         if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
         if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
-      }
+      });
 
+      // Conexões entre estrelas próximas
       for (let i = 0; i < estrelas.length; i++) {
         for (let j = i + 1; j < estrelas.length; j++) {
-          let dx = estrelas[i].x - estrelas[j].x;
-          let dy = estrelas[i].y - estrelas[j].y;
-          let dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.strokeStyle = `rgba(255,0,0,${1 - dist / 100})`;
-            ctx.lineWidth = 0.8;
+          const dx = estrelas[i].x - estrelas[j].x;
+          const dy = estrelas[i].y - estrelas[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 110) {
+            ctx.strokeStyle = estrelas[i].cor;
+            ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(estrelas[i].x, estrelas[i].y);
             ctx.lineTo(estrelas[j].x, estrelas[j].y);
