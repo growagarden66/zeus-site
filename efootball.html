@@ -1,88 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zeus ⚡ | eFootball</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zeus - eFootball</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at center, #000000 60%, #1a0000 100%);
+      background: radial-gradient(circle at center, #1a0000, #000);
       color: white;
       font-family: 'Poppins', sans-serif;
       text-align: center;
       height: 100vh;
-      overflow: hidden;
-    }
-
-    .container {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-      gap: 20px;
-    }
-
-    img {
-      width: 260px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+      align-items: center;
     }
 
     h1 {
-      font-size: 2.5em;
-      text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-    }
-
-    .info {
-      background-color: black;
-      padding: 20px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #ff0000;
-      animation: pulsar 2s infinite alternate;
-    }
-
-    .info p {
-      font-size: 1.3em;
-      margin: 8px 0;
-      font-weight: bold;
-    }
-
-    @keyframes pulsar {
-      from { box-shadow: 0 0 10px #ff0000; }
-      to { box-shadow: 0 0 25px #ff3333; }
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 20px;
+      font-size: 3rem;
       color: #ff0000;
-      text-decoration: none;
-      font-weight: bold;
-      border: 2px solid #ff0000;
+      text-shadow: 0 0 20px #ff0000;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      background: rgba(0, 0, 0, 0.7);
       padding: 10px 20px;
       border-radius: 10px;
+    }
+
+    audio {
+      margin-top: 30px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+
+    button {
+      background: #ff0000;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      margin-top: 20px;
       transition: 0.3s;
     }
 
-    a:hover {
-      background: #ff0000;
-      color: white;
-      box-shadow: 0 0 20px #ff0000;
+    button:hover {
+      background: #ff4d4d;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Lionel_Messi_2011.jpg" alt="Jogador de Futebol">
-    <h1>⚽ eFootball ⚡</h1>
-    <div class="info">
-      <p>👤 Nome: <strong>ZEUSKATANA</strong></p>
-      <p>🆔 ID: <strong>ASFY-782-034-542</strong></p>
-    </div>
-    <a href="index.html">⬅️ Voltar ao site Zeus</a>
-  </div>
+
+  <h1>⚡ Zeus no eFootball ⚡</h1>
+  <p><strong>Nome:</strong> ZEUSKATANA</p>
+  <p><strong>ID:</strong> ASFY-782-034-542</p>
+
+  <!-- 🎵 MÚSICA DIRETA -->
+  <audio controls>
+    <source src="https://open.spotify.com/track/2LhfsUStPArrb839f7C2dQ?si=_xYFjz_2QYC4SUGsudN5jw" type="audio/mpeg">
+    Seu navegador não suporta áudio HTML5.
+  </audio>
+
+  <!-- OU ABRIR NO SPOTIFY -->
+  <button onclick="window.open('https://open.spotify.com/track/2LhfsUStPArrb839f7C2dQ?si=_xYFjz_2QYC4SUGsudN5jw','_blank')">
+    🎧 Ouvir no Spotify
+  </button>
+
 </body>
 </html>
