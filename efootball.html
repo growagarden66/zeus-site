@@ -1,239 +1,229 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZEUS eFootball ⚡</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: black;
-      font-family: 'Poppins', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚽ Zeus no eFootball ⚡</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+  }
 
-    h1 {
-      color: red;
-      font-size: 3em;
-      text-shadow: 0 0 25px red, 0 0 50px #ff0000;
-      margin-bottom: 10px;
-    }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
 
-    p {
-      font-size: 1.3em;
-      margin: 8px 0;
-    }
+  .container {
+    position: relative;
+    z-index: 2;
+    top: 35%;
+  }
 
-    button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 15px 35px;
-      border-radius: 12px;
-      font-size: 1.2em;
-      cursor: pointer;
-      margin-top: 25px;
-      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
-    }
+  h1 {
+    font-size: 2.5em;
+    text-shadow: 0 0 20px red;
+    animation: pulse 2s infinite alternate;
+  }
 
-    button:hover {
-      transform: scale(1.1);
-      background-color: #ff3333;
-      box-shadow: 0 0 25px #ff0000;
-    }
+  @keyframes pulse {
+    from { text-shadow: 0 0 10px red; }
+    to { text-shadow: 0 0 25px darkred; }
+  }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
+  .button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 15px 25px;
+    color: white;
+    font-size: 1.1em;
+    margin: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
 
-    /* Efeito de clique azul */
-    .click-effect {
-      position: fixed;
-      border-radius: 50%;
-      background: rgba(0, 150, 255, 0.6);
-      pointer-events: none;
-      transform: scale(0);
-      animation: clickAnimation 0.6s ease-out forwards;
-      z-index: 1000;
-    }
+  .button:hover {
+    background: red;
+    color: black;
+    box-shadow: 0 0 15px red;
+  }
 
-    @keyframes clickAnimation {
-      to {
-        transform: scale(10);
-        opacity: 0;
-      }
-    }
+  .click-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: clickAnim 0.5s ease-out;
+    background: rgba(0, 150, 255, 0.7);
+    pointer-events: none;
+  }
 
-    /* Flash do trovão */
-    .flash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
+  @keyframes clickAnim {
+    to {
+      transform: scale(3);
       opacity: 0;
-      pointer-events: none;
-      animation: flashAnim 0.3s ease-out;
-      z-index: 999;
     }
+  }
 
-    @keyframes flashAnim {
-      0% { opacity: 0; }
-      30% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-  </style>
+  .info-box {
+    display: none;
+    background: rgba(255, 255, 0, 0.9);
+    color: black;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px red;
+    width: fit-content;
+    margin: 40px auto;
+    font-size: 1.4em;
+    animation: fadeIn 1s forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .username {
+    font-weight: bold;
+    text-shadow: 0 0 15px red;
+    animation: textAppear 2s ease-in-out forwards;
+  }
+
+  @keyframes textAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 </head>
 <body>
-  <h1>⚡ ZEUS eFootball ⚽</h1>
-  <p><strong>Nome:</strong> ZEUSKATANA</p>
-  <p><strong>ID:</strong> ASFY-782-034-542</p>
-  <button onclick="window.location.href='index.html'">⬅ Voltar</button>
 
-  <canvas id="constelacoes"></canvas>
+<canvas id="constelacoes"></canvas>
 
-  <!-- Som de clique -->
-  <audio id="clickSound" preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6e4d1f9a93.mp3?filename=click-124467.mp3" type="audio/mp3">
-  </audio>
+<div class="container">
+  <h1>⚡ ZEUS ⚡</h1>
+  <button class="button" id="mostrarUser">📜 Meu user no eFootball</button>
+  <button class="button" id="voltar">⬅️ Voltar</button>
+  <div id="infoBox" class="info-box">
+    <div class="username" id="user"></div>
+  </div>
+</div>
 
-  <!-- Som de trovão -->
-  <audio id="thunderSound" preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_7f0db09b16.mp3?filename=thunder-124484.mp3" type="audio/mp3">
-  </audio>
+<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_9e9d1b2e0a.mp3" preload="auto"></audio>
 
-  <script>
-    const canvas = document.getElementById("constelacoes");
-    const ctx = canvas.getContext("2d");
-    let estrelas = [];
+<script>
+const canvas = document.getElementById("constelacoes");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    function redimensionar() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", redimensionar);
-    redimensionar();
+let estrelas = [];
+const num = 60;
 
-    function gerarEstrelasAleatorias() {
-      for (let i = 0; i < 40; i++) {
-        estrelas.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.5,
-          dy: (Math.random() - 0.5) * 0.5,
-          tempo: Date.now() + 3000 + Math.random() * 2000,
-          cor: `hsl(${Math.random() * 360}, 100%, 50%)`
-        });
-      }
-    }
-    gerarEstrelasAleatorias();
+// Cria estrelas fixas
+for (let i = 0; i < num; i++) {
+  estrelas.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    dx: (Math.random() - 0.5) * 1,
+    dy: (Math.random() - 0.5) * 1,
+    r: 1 + Math.random() * 2
+  });
+}
 
-    document.addEventListener("mousemove", (e) => {
-      for (let i = 0; i < 5; i++) {
-        estrelas.push({
-          x: e.clientX + (Math.random() - 0.5) * 20,
-          y: e.clientY + (Math.random() - 0.5) * 20,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 1.5,
-          dy: (Math.random() - 0.5) * 1.5,
-          tempo: Date.now() + 500 + Math.random() * 400,
-          cor: `hsl(${Math.random() * 360}, 100%, 50%)`
-        });
-      }
-    });
+function desenhar() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let estrela of estrelas) {
+    estrela.x += estrela.dx;
+    estrela.y += estrela.dy;
 
-    function desenhar() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
+    if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
 
-      for (let i = 0; i < estrelas.length; i++) {
-        for (let j = i + 1; j < estrelas.length; j++) {
-          const dx = estrelas[i].x - estrelas[j].x;
-          const dy = estrelas[i].y - estrelas[j].y;
-          const distancia = Math.sqrt(dx * dx + dy * dy);
-          if (distancia < 100) {
-            ctx.beginPath();
-            ctx.moveTo(estrelas[i].x, estrelas[i].y);
-            ctx.lineTo(estrelas[j].x, estrelas[j].y);
-            ctx.strokeStyle = `hsla(${Math.random() * 360}, 100%, 50%, ${1 - distancia / 100})`;
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-          }
-        }
-      }
+    ctx.beginPath();
+    ctx.fillStyle = "red";
+    ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
+    ctx.fill();
 
-      estrelas.forEach((estrela, i) => {
+    for (let outra of estrelas) {
+      let dx = estrela.x - outra.x;
+      let dy = estrela.y - outra.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 90 && Math.random() < 0.01) {
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 0.5;
         ctx.beginPath();
-        ctx.arc(estrela.x, estrela.y, estrela.raio, 0, Math.PI * 2);
-        ctx.fillStyle = estrela.cor;
-        ctx.fill();
-
-        estrela.x += estrela.dx;
-        estrela.y += estrela.dy;
-
-        if (Date.now() > estrela.tempo) estrelas.splice(i, 1);
-      });
-
-      if (Math.random() < 0.05) {
-        estrelas.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.5,
-          dy: (Math.random() - 0.5) * 0.5,
-          tempo: Date.now() + 4000 + Math.random() * 2000,
-          cor: `hsl(${Math.random() * 360}, 100%, 50%)`
-        });
+        ctx.moveTo(estrela.x, estrela.y);
+        ctx.lineTo(outra.x, outra.y);
+        ctx.stroke();
       }
-
-      requestAnimationFrame(desenhar);
     }
-    desenhar();
+  }
+  requestAnimationFrame(desenhar);
+}
+desenhar();
 
-    // 🔹 Efeito de clique com som
-    document.addEventListener("click", (e) => {
-      const clickSound = document.getElementById("clickSound");
-      clickSound.currentTime = 0;
-      clickSound.play();
+// Efeito de constelações com o mouse
+canvas.addEventListener("mousemove", e => {
+  const nova = {
+    x: e.clientX,
+    y: e.clientY,
+    dx: (Math.random() - 0.5) * 1.5,
+    dy: (Math.random() - 0.5) * 1.5,
+    r: 2
+  };
+  estrelas.push(nova);
+  setTimeout(() => estrelas.splice(estrelas.indexOf(nova), 1), 200);
+});
 
-      const effect = document.createElement("div");
-      effect.className = "click-effect";
-      effect.style.width = "30px";
-      effect.style.height = "30px";
-      effect.style.left = `${e.clientX - 15}px`;
-      effect.style.top = `${e.clientY - 15}px`;
-      document.body.appendChild(effect);
+// Efeito de clique com som
+document.querySelectorAll(".button").forEach(btn => {
+  btn.addEventListener("click", e => {
+    const clickSound = document.getElementById("clickSound");
+    clickSound.currentTime = 0;
+    clickSound.play();
 
-      setTimeout(() => effect.remove(), 600);
-    });
+    const effect = document.createElement("span");
+    effect.className = "click-effect";
+    effect.style.left = e.offsetX + "px";
+    effect.style.top = e.offsetY + "px";
+    btn.appendChild(effect);
+    setTimeout(() => effect.remove(), 500);
+  });
+});
 
-    // ⚡ Trovão a cada poucos segundos
-    function relampago() {
-      const flash = document.createElement("div");
-      flash.className = "flash";
-      document.body.appendChild(flash);
-      setTimeout(() => flash.remove(), 300);
-
-      const thunder = document.getElementById("thunderSound");
-      thunder.currentTime = 0;
-      thunder.play();
+// Mostrar user e ID com animação
+document.getElementById("mostrarUser").addEventListener("click", () => {
+  const box = document.getElementById("infoBox");
+  const user = document.getElementById("user");
+  box.style.display = "block";
+  user.innerHTML = "";
+  let text = "Nome: ZEUSKATANA<br>ID: ASFY-782-034-542";
+  let i = 0;
+  function animarTexto() {
+    if (i < text.length) {
+      user.innerHTML += text[i];
+      i++;
+      setTimeout(animarTexto, 60);
     }
+  }
+  animarTexto();
+});
 
-    setInterval(() => {
-      if (Math.random() < 0.4) relampago(); // 40% de chance a cada 5s
-    }, 5000);
-  </script>
+// Botão voltar
+document.getElementById("voltar").addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+</script>
+
 </body>
 </html>
