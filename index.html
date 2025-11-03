@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚽ Me adicione no eFootball!</title>
+<title>⚡ ZEUS ⚡</title>
 <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    margin: 0;
-    overflow: hidden;
     background: black;
+    overflow: hidden;
+    height: 100vh;
     font-family: 'Poppins', sans-serif;
     color: white;
     text-align: center;
@@ -26,38 +28,40 @@
   .container {
     position: relative;
     z-index: 2;
-    top: 35%;
+    top: 40%;
   }
 
-  .title {
-    font-size: 2.5em;
-    font-weight: bold;
-    text-shadow: 0 0 15px cyan;
+  h1 {
+    font-size: 3em;
+    color: white;
+    text-shadow: 0 0 20px red;
+    margin-bottom: 30px;
     animation: pulse 2s infinite alternate;
   }
 
   @keyframes pulse {
-    from { text-shadow: 0 0 10px cyan; }
-    to { text-shadow: 0 0 25px blue; }
+    from { text-shadow: 0 0 10px red; }
+    to { text-shadow: 0 0 25px darkred; }
   }
 
   .button {
-    background: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 25px;
     border: 2px solid white;
     border-radius: 12px;
-    padding: 15px 25px;
     color: white;
-    font-size: 1.1em;
-    margin-top: 20px;
+    background: rgba(255,255,255,0.1);
+    font-size: 1.2em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
     position: relative;
   }
 
   .button:hover {
-    background: cyan;
+    background: red;
     color: black;
-    box-shadow: 0 0 15px cyan;
+    box-shadow: 0 0 15px red;
   }
 
   .click-effect {
@@ -65,7 +69,7 @@
     border-radius: 50%;
     transform: scale(0);
     animation: clickAnim 0.5s ease-out;
-    background: rgba(0, 255, 255, 0.7);
+    background: rgba(0, 150, 255, 0.7);
     pointer-events: none;
   }
 
@@ -75,41 +79,6 @@
       opacity: 0;
     }
   }
-
-  #infoBox {
-    display: none;
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: yellow;
-    color: black;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px limegreen;
-    animation: fadeIn 1s forwards;
-    text-align: center;
-    z-index: 3;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -60%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
-  }
-
-  .username {
-    font-size: 1.8em;
-    font-weight: bold;
-    animation: textAppear 2.5s ease-in-out forwards;
-    background: linear-gradient(90deg, blue, cyan, lime);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  @keyframes textAppear {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 </style>
 </head>
 <body>
@@ -117,13 +86,9 @@
 <canvas id="constelacoes"></canvas>
 
 <div class="container">
-  <div class="title">⚡ ZEUS ⚡</div>
-  <button class="button" id="roblox">🎮 Me adicione no Roblox!</button><br>
-  <button class="button" id="efootball">⚽ Me adicione no eFootball!</button>
-</div>
-
-<div id="infoBox">
-  <div class="username" id="user">Carregando...</div>
+  <h1>⚡ ZEUS ⚡</h1>
+  <button class="button" id="roblox">🎮 Me adicione no Roblox</button>
+  <button class="button" id="efootball">⚽ Me adicione no eFootball</button>
 </div>
 
 <audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_9e9d1b2e0a.mp3" preload="auto"></audio>
@@ -137,12 +102,13 @@ canvas.height = window.innerHeight;
 let estrelas = [];
 const num = 70;
 
+// Criar estrelas iniciais
 for (let i = 0; i < num; i++) {
   estrelas.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    dx: (Math.random() - 0.5) * 1.2,
-    dy: (Math.random() - 0.5) * 1.2,
+    dx: (Math.random() - 0.5) * 1,
+    dy: (Math.random() - 0.5) * 1,
     r: 1 + Math.random() * 2
   });
 }
@@ -157,18 +123,16 @@ function desenhar() {
     if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
 
     ctx.beginPath();
-    const cor = `hsl(${Math.random() * 360}, 100%, 60%)`;
-    ctx.fillStyle = cor;
+    ctx.fillStyle = "red";
     ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
     ctx.fill();
 
-    // Apenas uma linha aleatória entre estrelas próximas
     for (let outra of estrelas) {
       let dx = estrela.x - outra.x;
       let dy = estrela.y - outra.y;
       let dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 90 && Math.random() < 0.01) {
-        ctx.strokeStyle = cor;
+      if (dist < 90 && Math.random() < 0.008) {
+        ctx.strokeStyle = "red";
         ctx.lineWidth = 0.5;
         ctx.beginPath();
         ctx.moveTo(estrela.x, estrela.y);
@@ -181,17 +145,20 @@ function desenhar() {
 }
 desenhar();
 
+// Efeito de constelações seguindo o mouse (e sumindo rápido)
 canvas.addEventListener("mousemove", e => {
-  estrelas.push({
+  const nova = {
     x: e.clientX,
     y: e.clientY,
     dx: (Math.random() - 0.5) * 1.5,
     dy: (Math.random() - 0.5) * 1.5,
     r: 2
-  });
-  if (estrelas.length > num) estrelas.splice(0, 1);
+  };
+  estrelas.push(nova);
+  setTimeout(() => estrelas.splice(estrelas.indexOf(nova), 1), 200);
 });
 
+// Efeito de clique com som
 document.querySelectorAll(".button").forEach(btn => {
   btn.addEventListener("click", e => {
     const clickSound = document.getElementById("clickSound");
@@ -207,21 +174,13 @@ document.querySelectorAll(".button").forEach(btn => {
   });
 });
 
+// Links dos botões
+document.getElementById("roblox").addEventListener("click", () => {
+  window.open("https://www.roblox.com/pt/users/2968810271/profile", "_blank");
+});
+
 document.getElementById("efootball").addEventListener("click", () => {
-  const box = document.getElementById("infoBox");
-  const user = document.getElementById("user");
-  box.style.display = "block";
-  user.innerHTML = "";
-  let text = "Nome: ZEUSKATANA<br>ID: ASFY-782-034-542";
-  let i = 0;
-  function animarTexto() {
-    if (i < text.length) {
-      user.innerHTML += text[i];
-      i++;
-      setTimeout(animarTexto, 60);
-    }
-  }
-  animarTexto();
+  window.location.href = "efootball.html";
 });
 </script>
 
