@@ -1,197 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZEUS - Início</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: black;
-      font-family: 'Poppins', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      cursor: crosshair;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡Zeus⚡</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+  }
 
-    h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      color: red;
-      text-shadow: 0 0 20px red, 0 0 40px #ff0000;
-    }
+  h1 {
+    color: white;
+    font-size: 3em;
+    text-align: center;
+    text-shadow: 0 0 20px red, 0 0 40px blue;
+    margin-bottom: 40px;
+    animation: brilho 3s infinite alternate;
+  }
 
-    button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 15px 35px;
-      border-radius: 12px;
-      font-size: 1.2em;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
-    }
+  @keyframes brilho {
+    from { text-shadow: 0 0 15px red; }
+    to { text-shadow: 0 0 35px blue; }
+  }
 
-    button:hover {
-      transform: scale(1.1);
-      background-color: #ff3333;
-      box-shadow: 0 0 25px #ff0000;
-    }
+  button {
+    background: transparent;
+    border: 2px solid red;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
+  button:hover {
+    background: red;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px red;
+  }
 
-    /* Efeito do clique azul */
-    .click-effect {
-      position: fixed;
-      border-radius: 50%;
-      background: rgba(0, 150, 255, 0.5);
-      pointer-events: none;
-      transform: scale(0);
-      animation: clickAnimation 0.6s ease-out forwards;
-      z-index: 1000;
-    }
+  button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 25px blue;
+  }
 
-    @keyframes clickAnimation {
-      to {
-        transform: scale(10);
-        opacity: 0;
-      }
-    }
-  </style>
+  #userInfo {
+    color: white;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 30px;
+    opacity: 0;
+    animation: aparecer 4s ease forwards 2s;
+  }
+
+  #userInfo span {
+    display: block;
+    font-size: 1.5em;
+    text-shadow: 0 0 10px cyan, 0 0 30px blue;
+    animation: brilhoNome 2s infinite alternate;
+  }
+
+  @keyframes aparecer {
+    to { opacity: 1; }
+  }
+
+  @keyframes brilhoNome {
+    from { text-shadow: 0 0 15px blue; color: #00ffff; }
+    to { text-shadow: 0 0 40px cyan; color: #00ccff; }
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+</style>
 </head>
 <body>
-  <h1>🔥 ZEUS 🔥</h1>
-  <button onclick="window.location.href='efootball.html'">⚽ Acessar Perfil eFootball</button>
 
-  <canvas id="constelacoes"></canvas>
+<canvas id="constelacoes"></canvas>
 
-  <!-- Som de clique -->
-  <audio id="clickSound" preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6e4d1f9a93.mp3?filename=click-124467.mp3" type="audio/mp3">
-  </audio>
+<h1>⚡Zeus⚡</h1>
 
-  <script>
-    const canvas = document.getElementById("constelacoes");
-    const ctx = canvas.getContext("2d");
-    let estrelas = [];
+<button onclick="clickSound();window.location.href='https://www.roblox.com/'">🎮 Me adicione no Roblox!</button>
+<button onclick="clickSound();window.location.href='https://www.konami.com/efootball/en/'">⚽ Me adicione no eFootball!</button>
 
-    function redimensionar() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+<div id="userInfo">
+  <span>Nome: ZEUSKATANA</span>
+  <span>ID: ASFY-782-034-542</span>
+</div>
+
+<!-- Sons -->
+<audio id="click-audio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_51a523227b.mp3" preload="auto"></audio>
+<audio id="thunder-audio" src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_b8e6e0f682.mp3" preload="auto"></audio>
+
+<script>
+const canvas = document.getElementById("constelacoes");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let estrelas = [];
+const numEstrelas = 60;
+
+for (let i = 0; i < numEstrelas; i++) {
+  estrelas.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    dx: (Math.random() - 0.5) * 0.8,
+    dy: (Math.random() - 0.5) * 0.8,
+    tamanho: Math.random() * 2,
+    cor: getRandomColor()
+  });
+}
+
+function getRandomColor() {
+  const cores = ["red", "blue", "white"];
+  return cores[Math.floor(Math.random() * cores.length)];
+}
+
+function desenhar() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < estrelas.length; i++) {
+    const e = estrelas[i];
+    ctx.beginPath();
+    ctx.arc(e.x, e.y, e.tamanho, 0, Math.PI * 2);
+    ctx.fillStyle = e.cor;
+    ctx.fill();
+
+    e.x += e.dx;
+    e.y += e.dy;
+
+    if (e.x < 0 || e.x > canvas.width) e.dx *= -1;
+    if (e.y < 0 || e.y > canvas.height) e.dy *= -1;
+
+    // Apenas 1 linha por vez
+    if (Math.random() < 0.004) {
+      const alvo = estrelas[Math.floor(Math.random() * estrelas.length)];
+      ctx.beginPath();
+      ctx.moveTo(e.x, e.y);
+      ctx.lineTo(alvo.x, alvo.y);
+      ctx.strokeStyle = e.cor;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
     }
-    window.addEventListener("resize", redimensionar);
-    redimensionar();
+  }
 
-    // Cria estrelas iniciais aleatórias
-    function gerarEstrelasAleatorias() {
-      for (let i = 0; i < 50; i++) {
-        estrelas.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.5,
-          dy: (Math.random() - 0.5) * 0.5,
-          tempo: Date.now() + 3000 + Math.random() * 2000
-        });
-      }
-    }
-    gerarEstrelasAleatorias();
+  requestAnimationFrame(desenhar);
+}
 
-    // Cria novas estrelas ao mover o mouse
-    document.addEventListener("mousemove", (e) => {
-      for (let i = 0; i < 5; i++) {
-        estrelas.push({
-          x: e.clientX + (Math.random() - 0.5) * 25,
-          y: e.clientY + (Math.random() - 0.5) * 25,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 1.5,
-          dy: (Math.random() - 0.5) * 1.5,
-          tempo: Date.now() + 500 + Math.random() * 300
-        });
-      }
+canvas.addEventListener("mousemove", (e) => {
+  for (let i = 0; i < 3; i++) {
+    estrelas.push({
+      x: e.clientX + (Math.random() - 0.5) * 40,
+      y: e.clientY + (Math.random() - 0.5) * 40,
+      dx: (Math.random() - 0.5) * 1.5,
+      dy: (Math.random() - 0.5) * 1.5,
+      tamanho: Math.random() * 2,
+      cor: getRandomColor()
     });
+  }
+  if (estrelas.length > numEstrelas * 2) estrelas.splice(0, 5);
+});
 
-    function desenhar() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+function clickSound() {
+  const audio = document.getElementById("click-audio");
+  audio.currentTime = 0;
+  audio.play();
+}
 
-      // desenhar as linhas entre estrelas próximas
-      for (let i = 0; i < estrelas.length; i++) {
-        for (let j = i + 1; j < estrelas.length; j++) {
-          const dx = estrelas[i].x - estrelas[j].x;
-          const dy = estrelas[i].y - estrelas[j].y;
-          const distancia = Math.sqrt(dx * dx + dy * dy);
-          if (distancia < 100) {
-            ctx.beginPath();
-            ctx.moveTo(estrelas[i].x, estrelas[i].y);
-            ctx.lineTo(estrelas[j].x, estrelas[j].y);
-            ctx.strokeStyle = `rgba(255, 0, 0, ${1 - distancia / 100})`;
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-          }
-        }
-      }
+// Som de trovão quando nome aparece
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const thunder = document.getElementById("thunder-audio");
+    thunder.volume = 0.3;
+    thunder.play();
+  }, 2000);
+});
 
-      // desenhar e mover estrelas
-      estrelas.forEach((estrela, i) => {
-        ctx.beginPath();
-        ctx.arc(estrela.x, estrela.y, estrela.raio, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 0, 0, 0.9)";
-        ctx.fill();
+desenhar();
+</script>
 
-        estrela.x += estrela.dx;
-        estrela.y += estrela.dy;
-
-        // remove após o tempo acabar
-        if (Date.now() > estrela.tempo) {
-          estrelas.splice(i, 1);
-        }
-      });
-
-      // adiciona novas estrelas aleatórias lentamente
-      if (Math.random() < 0.05) {
-        estrelas.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          raio: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.5,
-          dy: (Math.random() - 0.5) * 0.5,
-          tempo: Date.now() + 4000 + Math.random() * 2000
-        });
-      }
-
-      requestAnimationFrame(desenhar);
-    }
-    desenhar();
-
-    // Clique com efeito e som
-    document.addEventListener("click", (e) => {
-      const clickSound = document.getElementById("clickSound");
-      clickSound.currentTime = 0;
-      clickSound.play();
-
-      const effect = document.createElement("div");
-      effect.className = "click-effect";
-      effect.style.width = "30px";
-      effect.style.height = "30px";
-      effect.style.left = `${e.clientX - 15}px`;
-      effect.style.top = `${e.clientY - 15}px`;
-      document.body.appendChild(effect);
-
-      setTimeout(() => effect.remove(), 600);
-    });
-  </script>
 </body>
-</html>
+  </html>
