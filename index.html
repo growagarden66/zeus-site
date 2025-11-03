@@ -3,87 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡Zeus⚡</title>
+<title>⚽ Me adicione no eFootball!</title>
 <style>
   body {
     margin: 0;
     overflow: hidden;
     background: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
     font-family: 'Poppins', sans-serif;
-  }
-
-  h1 {
-    color: white;
-    font-size: 3em;
-    text-align: center;
-    text-shadow: 0 0 20px red, 0 0 40px blue;
-    margin-bottom: 40px;
-    animation: brilho 3s infinite alternate;
-  }
-
-  @keyframes brilho {
-    from { text-shadow: 0 0 15px red; }
-    to { text-shadow: 0 0 35px blue; }
-  }
-
-  button {
-    background: transparent;
-    border: 2px solid red;
-    color: white;
-    font-size: 1.2em;
-    padding: 15px 30px;
-    margin: 10px;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: red;
-    transform: scale(1.1);
-    box-shadow: 0 0 20px red;
-  }
-
-  button:active {
-    transform: scale(0.95);
-    box-shadow: 0 0 25px blue;
-  }
-
-  #userInfo {
     color: white;
     text-align: center;
-    font-size: 1.2em;
-    margin-top: 30px;
-    opacity: 0;
-    animation: aparecer 4s ease forwards 2s;
-  }
-
-  #userInfo span {
-    display: block;
-    font-size: 1.5em;
-    text-shadow: 0 0 10px cyan, 0 0 30px blue;
-    animation: brilhoNome 2s infinite alternate;
-  }
-
-  @keyframes aparecer {
-    to { opacity: 1; }
-  }
-
-  @keyframes brilhoNome {
-    from { text-shadow: 0 0 15px blue; color: #00ffff; }
-    to { text-shadow: 0 0 40px cyan; color: #00ccff; }
   }
 
   canvas {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: -1;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    top: 35%;
+  }
+
+  .title {
+    font-size: 2.5em;
+    font-weight: bold;
+    text-shadow: 0 0 15px cyan;
+    animation: pulse 2s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { text-shadow: 0 0 10px cyan; }
+    to { text-shadow: 0 0 25px blue; }
+  }
+
+  .button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 15px 25px;
+    color: white;
+    font-size: 1.1em;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .button:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 15px cyan;
+  }
+
+  .click-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: clickAnim 0.5s ease-out;
+    background: rgba(0, 255, 255, 0.7);
+    pointer-events: none;
+  }
+
+  @keyframes clickAnim {
+    to {
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
+
+  #infoBox {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: yellow;
+    color: black;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px limegreen;
+    animation: fadeIn 1s forwards;
+    text-align: center;
+    z-index: 3;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
+
+  .username {
+    font-size: 1.8em;
+    font-weight: bold;
+    animation: textAppear 2.5s ease-in-out forwards;
+    background: linear-gradient(90deg, blue, cyan, lime);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes textAppear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
@@ -91,107 +116,114 @@
 
 <canvas id="constelacoes"></canvas>
 
-<h1>⚡Zeus⚡</h1>
-
-<button onclick="clickSound();window.location.href='https://www.roblox.com/'">🎮 Me adicione no Roblox!</button>
-<button onclick="clickSound();window.location.href='https://www.konami.com/efootball/en/'">⚽ Me adicione no eFootball!</button>
-
-<div id="userInfo">
-  <span>Nome: ZEUSKATANA</span>
-  <span>ID: ASFY-782-034-542</span>
+<div class="container">
+  <div class="title">⚡ ZEUS ⚡</div>
+  <button class="button" id="roblox">🎮 Me adicione no Roblox!</button><br>
+  <button class="button" id="efootball">⚽ Me adicione no eFootball!</button>
 </div>
 
-<!-- Sons -->
-<audio id="click-audio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_51a523227b.mp3" preload="auto"></audio>
-<audio id="thunder-audio" src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_b8e6e0f682.mp3" preload="auto"></audio>
+<div id="infoBox">
+  <div class="username" id="user">Carregando...</div>
+</div>
+
+<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_9e9d1b2e0a.mp3" preload="auto"></audio>
 
 <script>
 const canvas = document.getElementById("constelacoes");
 const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let estrelas = [];
-const numEstrelas = 60;
+const num = 70;
 
-for (let i = 0; i < numEstrelas; i++) {
+for (let i = 0; i < num; i++) {
   estrelas.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    dx: (Math.random() - 0.5) * 0.8,
-    dy: (Math.random() - 0.5) * 0.8,
-    tamanho: Math.random() * 2,
-    cor: getRandomColor()
+    dx: (Math.random() - 0.5) * 1.2,
+    dy: (Math.random() - 0.5) * 1.2,
+    r: 1 + Math.random() * 2
   });
-}
-
-function getRandomColor() {
-  const cores = ["red", "blue", "white"];
-  return cores[Math.floor(Math.random() * cores.length)];
 }
 
 function desenhar() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < estrelas.length; i++) {
-    const e = estrelas[i];
+  for (let estrela of estrelas) {
+    estrela.x += estrela.dx;
+    estrela.y += estrela.dy;
+
+    if (estrela.x < 0 || estrela.x > canvas.width) estrela.dx *= -1;
+    if (estrela.y < 0 || estrela.y > canvas.height) estrela.dy *= -1;
+
     ctx.beginPath();
-    ctx.arc(e.x, e.y, e.tamanho, 0, Math.PI * 2);
-    ctx.fillStyle = e.cor;
+    const cor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+    ctx.fillStyle = cor;
+    ctx.arc(estrela.x, estrela.y, estrela.r, 0, Math.PI * 2);
     ctx.fill();
 
-    e.x += e.dx;
-    e.y += e.dy;
-
-    if (e.x < 0 || e.x > canvas.width) e.dx *= -1;
-    if (e.y < 0 || e.y > canvas.height) e.dy *= -1;
-
-    // Apenas 1 linha por vez
-    if (Math.random() < 0.004) {
-      const alvo = estrelas[Math.floor(Math.random() * estrelas.length)];
-      ctx.beginPath();
-      ctx.moveTo(e.x, e.y);
-      ctx.lineTo(alvo.x, alvo.y);
-      ctx.strokeStyle = e.cor;
-      ctx.lineWidth = 0.7;
-      ctx.stroke();
+    // Apenas uma linha aleatória entre estrelas próximas
+    for (let outra of estrelas) {
+      let dx = estrela.x - outra.x;
+      let dy = estrela.y - outra.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 90 && Math.random() < 0.01) {
+        ctx.strokeStyle = cor;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(estrela.x, estrela.y);
+        ctx.lineTo(outra.x, outra.y);
+        ctx.stroke();
+      }
     }
   }
-
   requestAnimationFrame(desenhar);
 }
-
-canvas.addEventListener("mousemove", (e) => {
-  for (let i = 0; i < 3; i++) {
-    estrelas.push({
-      x: e.clientX + (Math.random() - 0.5) * 40,
-      y: e.clientY + (Math.random() - 0.5) * 40,
-      dx: (Math.random() - 0.5) * 1.5,
-      dy: (Math.random() - 0.5) * 1.5,
-      tamanho: Math.random() * 2,
-      cor: getRandomColor()
-    });
-  }
-  if (estrelas.length > numEstrelas * 2) estrelas.splice(0, 5);
-});
-
-function clickSound() {
-  const audio = document.getElementById("click-audio");
-  audio.currentTime = 0;
-  audio.play();
-}
-
-// Som de trovão quando nome aparece
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const thunder = document.getElementById("thunder-audio");
-    thunder.volume = 0.3;
-    thunder.play();
-  }, 2000);
-});
-
 desenhar();
+
+canvas.addEventListener("mousemove", e => {
+  estrelas.push({
+    x: e.clientX,
+    y: e.clientY,
+    dx: (Math.random() - 0.5) * 1.5,
+    dy: (Math.random() - 0.5) * 1.5,
+    r: 2
+  });
+  if (estrelas.length > num) estrelas.splice(0, 1);
+});
+
+document.querySelectorAll(".button").forEach(btn => {
+  btn.addEventListener("click", e => {
+    const clickSound = document.getElementById("clickSound");
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    const effect = document.createElement("span");
+    effect.className = "click-effect";
+    effect.style.left = e.offsetX + "px";
+    effect.style.top = e.offsetY + "px";
+    btn.appendChild(effect);
+    setTimeout(() => effect.remove(), 500);
+  });
+});
+
+document.getElementById("efootball").addEventListener("click", () => {
+  const box = document.getElementById("infoBox");
+  const user = document.getElementById("user");
+  box.style.display = "block";
+  user.innerHTML = "";
+  let text = "Nome: ZEUSKATANA<br>ID: ASFY-782-034-542";
+  let i = 0;
+  function animarTexto() {
+    if (i < text.length) {
+      user.innerHTML += text[i];
+      i++;
+      setTimeout(animarTexto, 60);
+    }
+  }
+  animarTexto();
+});
 </script>
 
 </body>
-  </html>
+</html>
